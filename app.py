@@ -10,7 +10,7 @@ from sqlalchemy_db import db
 
 app = Flask(__name__)
 app.config["JWT_SECRET_KEY"] = "johnsmith"
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///../database/data.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///./database/data.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 jwt = JWTManager(app)
 api = Api(app)
@@ -36,3 +36,11 @@ def initialize_apis():
     api.add_resource(StoreList, "/stores")
     api.add_resource(Users, "/user")
     api.add_resource(Login, "/login")
+
+
+if __name__ == "__main__":
+    db.init_app(app)
+    print("Initializing...")
+    initialize_apis()
+    print("Running Flask server...")
+    app.run(host="0.0.0.0", port=8080, debug=True)
