@@ -14,6 +14,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///./database/data.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 jwt = JWTManager(app)
 api = Api(app)
+db.init_app(app)
 
 
 @app.before_first_request
@@ -38,9 +39,10 @@ def initialize_apis():
     api.add_resource(Login, "/login")
 
 
+initialize_apis()
+
+
 if __name__ == "__main__":
-    db.init_app(app)
     print("Initializing...")
-    initialize_apis()
     print("Running Flask server...")
     app.run(host="0.0.0.0", port=8080, debug=True)
