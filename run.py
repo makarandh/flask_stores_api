@@ -14,7 +14,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///./database/data.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 jwt = JWTManager(app)
 api = Api(app)
-
+db.init_app(app)
 
 api.add_resource(Item, "/item/<string:name>")
 api.add_resource(ItemList, "/items")
@@ -22,8 +22,6 @@ api.add_resource(Store, "/store/<string:name>")
 api.add_resource(StoreList, "/stores")
 api.add_resource(Users, "/user")
 api.add_resource(Login, "/login")
-
-db.init_app(app)
 
 
 @app.before_first_request
@@ -38,8 +36,3 @@ def create_admin():
         print("admin created")
         UserModel("admin", "admin123", True).save_to_db()
 
-
-
-if __name__ == "__main__":
-    print("Running Flask server...")
-    app.run(host="0.0.0.0", port=8080, debug=True)
